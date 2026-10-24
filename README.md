@@ -13,8 +13,14 @@ Built with Expo (SDK 57), React Native, TypeScript and SQLite.
   <img src="docs/screenshots/transactions.png" width="200" alt="Transactions: searchable list with category filters">
 </p>
 
-Screenshots are taken on an Android emulator in CI with generated demo data
-(`e2e/screenshots/screenshots.yaml`).
+<details>
+<summary>Demo recording (50 seconds): quick add, budgets, insights, bills and the month review</summary>
+<img src="docs/screenshots/demo.gif" width="320" alt="Recording of adding a purchase with quick add, then moving through Budgets, Insights, Bills and the month review">
+</details>
+
+Screenshots and the recording are made on an Android emulator in CI with generated demo data
+(`e2e/screenshots/`). An installable APK is attached to each
+[release](https://github.com/MavenTheKeen/nickel/releases).
 
 ## What it does
 
