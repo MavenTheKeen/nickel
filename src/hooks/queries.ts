@@ -342,12 +342,19 @@ export function useUpdateSettings() {
   const db = useDb();
   const { effects } = useAppContext();
   const invalidate = useInvalidateAll();
+  const qc = useQueryClient();
   return useMutation({
     mutationFn: async (patch: Partial<Settings>) => {
       await updateSettings(db, patch);
       await rescheduleNotifications(db, effects, today()).catch(() => null);
     },
-    onSuccess: invalidate,
+    onSuccess: (_result, patch) => {
+      // Invalidation only refetches mounted queries. A screen that mounts
+      // straight after (Home, after onboarding) would otherwise read the old
+      // settings from the cache and act on them.
+      qc.setQueryData<Settings>(keys.settings, (old) => old && { ...old, ...patch });
+      return invalidate();
+    },
   });
 }
 
