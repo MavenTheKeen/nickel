@@ -13,7 +13,7 @@ appId: dev.nickel.app
 - tapOn:
     id: goal-target
 - inputText: '1200'
-- hideKeyboard
+- pressKey: Enter
 - scrollUntilVisible:
     element:
       id: goal-save
@@ -25,7 +25,7 @@ appId: dev.nickel.app
 - tapOn:
     id: goal-amount
 - inputText: '300'
-- hideKeyboard
+- pressKey: Enter
 - scrollUntilVisible:
     element:
       id: goal-contribute

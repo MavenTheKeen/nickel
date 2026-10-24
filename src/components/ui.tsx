@@ -1,5 +1,5 @@
 import { MaterialCommunityIcons } from '@expo/vector-icons';
-import { useEffect, useState, type ComponentProps, type ReactNode } from 'react';
+import { useEffect, useRef, useState, type ComponentProps, type ReactNode } from 'react';
 import {
   ActivityIndicator,
   Animated,
@@ -14,7 +14,7 @@ import {
 } from 'react-native';
 
 import { haptics } from '@/platform/haptics';
-import { useKeyboardScrollProps } from '@/platform/keyboard';
+import { useKeyboardScroll } from '@/platform/keyboard';
 import { useReducedMotion } from '@/platform/motion';
 import { font, radius, space, useTheme } from '@/theme/tokens';
 
@@ -25,13 +25,19 @@ import { AppText } from './AppText';
 
 export function Screen({ children, ...rest }: ScrollViewProps & { children: ReactNode }) {
   const theme = useTheme();
-  const keyboard = useKeyboardScrollProps(space.xxl);
+  const scrollRef = useRef<ScrollView>(null);
+  const keyboard = useKeyboardScroll(scrollRef, space.xxl);
   return (
     <ScrollView
-      {...keyboard}
+      ref={scrollRef}
+      {...keyboard.props}
       {...rest}
+      onScroll={(e) => {
+        keyboard.onScroll(e);
+        rest.onScroll?.(e);
+      }}
       style={[{ flex: 1, backgroundColor: theme.background }, rest.style]}
-      contentContainerStyle={[keyboard.contentContainerStyle, rest.contentContainerStyle]}
+      contentContainerStyle={[keyboard.props.contentContainerStyle, rest.contentContainerStyle]}
     >
       {children}
     </ScrollView>

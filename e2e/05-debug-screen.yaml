@@ -11,12 +11,10 @@ appId: dev.nickel.app
 - longPressOn: '.*All data stays on this device.*'
 - assertVisible:
     id: debug-screen
-- extendedWaitUntil:
-    visible: onboarding_v1
-    timeout: 15000
+- assertVisible: '.*onboarding_v1.*'
 - scrollUntilVisible:
-    element: app_open
+    element: '.*cold_start.*'
     direction: DOWN
 - scrollUntilVisible:
-    element: cold_start
+    element: '.*app_open.*'
     direction: DOWN

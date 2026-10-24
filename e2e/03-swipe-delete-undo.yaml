@@ -8,12 +8,14 @@ appId: dev.nickel.app
 - tapOn:
     id: amount-input
 - inputText: '4'
-- hideKeyboard
+- pressKey: Enter
 - scrollUntilVisible:
-    element: Merchant (optional)
-- tapOn: Merchant (optional)
+    element:
+      id: merchant-input
+- tapOn:
+    id: merchant-input
 - inputText: Coffee stand
-- hideKeyboard
+- pressKey: Enter
 - scrollUntilVisible:
     element:
       id: save-transaction

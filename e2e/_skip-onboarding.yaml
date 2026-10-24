@@ -2,11 +2,17 @@
 # shows the setup screens; skip them so every flow starts on Home.
 appId: dev.nickel.app
 ---
+- waitForAnimationToEnd
 - runFlow:
     when:
       visible:
         id: onboarding-screen
     commands:
-      - tapOn: Skip setup
-- assertVisible:
-    id: home-screen
+      - waitForAnimationToEnd
+      - tapOn:
+          text: Skip setup
+          retryTapIfNoChange: true
+- extendedWaitUntil:
+    visible:
+      id: home-screen
+    timeout: 15000

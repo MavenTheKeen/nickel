@@ -1,12 +1,12 @@
 import DateTimePicker from '@react-native-community/datetimepicker';
-import { useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { Controller, useForm, useWatch } from 'react-hook-form';
 import { Alert, Image, Platform, Pressable, ScrollView, View } from 'react-native';
 
 import type { Categorizer } from '@/hooks/loaders';
 import type { RateState } from '@/hooks/queries';
 import { useUiStore } from '@/hooks/uiStore';
-import { useKeyboardScrollProps } from '@/platform/keyboard';
+import { useKeyboardScroll } from '@/platform/keyboard';
 import { pickReceipt, receiptExists, receiptUri, type ReceiptSource } from '@/platform/receipts';
 import { suggestCategory } from '@/services/merchant';
 import { addDays, parseIsoDate, toIsoDate } from '@/services/dates';
@@ -217,6 +217,8 @@ export function TransactionForm({
     resolver: zodResolver(schema, { amountCents: 'amount' }),
   });
   const [showPicker, setShowPicker] = useState(false);
+  const scrollRef = useRef<ScrollView>(null);
+  const keyboard = useKeyboardScroll(scrollRef, space.xxl);
   const kind = useWatch({ control, name: 'kind' });
   const date = useWatch({ control, name: 'date' });
   const categoryId = useWatch({ control, name: 'categoryId' });
@@ -325,10 +327,8 @@ export function TransactionForm({
     { label: 'Yesterday', value: addDays(today, -1) },
   ];
   const dateIsQuick = quickDates.some((q) => q.value === date);
-  const keyboardScroll = useKeyboardScrollProps(space.xxl);
-
   return (
-    <ScrollView {...keyboardScroll}>
+    <ScrollView ref={scrollRef} {...keyboard.props} onScroll={keyboard.onScroll}>
       <View style={{ marginTop: space.lg }}>
         <Segmented
           accessibilityLabel="Expense or income"
@@ -553,6 +553,7 @@ export function TransactionForm({
         render={({ field }) => (
           <Field
             label="Merchant (optional)"
+            testID="merchant-input"
             value={field.value}
             onChangeText={field.onChange}
             onBlur={field.onBlur}

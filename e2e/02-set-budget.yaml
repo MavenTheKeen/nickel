@@ -11,7 +11,7 @@ appId: dev.nickel.app
     env:
       LIMIT: '100'
 - runFlow: _allow-permission.yaml
-- assertVisible: 'of $100.00'
+- assertVisible: '.*of \$100\.00.*'
 - tapOn: Home
 - assertVisible: Safe to spend today
 - tapOn:
@@ -19,7 +19,7 @@ appId: dev.nickel.app
 - tapOn:
     id: amount-input
 - inputText: '85'
-- hideKeyboard
+- pressKey: Enter
 - tapOn: Groceries
 - scrollUntilVisible:
     element:
@@ -27,4 +27,4 @@ appId: dev.nickel.app
 - tapOn:
     id: save-transaction
 - tapOn: Budgets
-- assertVisible: '85% used, nearly at limit'
+- assertVisible: '.*85% used, nearly at limit.*'

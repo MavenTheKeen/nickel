@@ -1,15 +1,6 @@
-# Shared step: with a budget row's editor open, type ${LIMIT} and save.
+# Shared step: a budget row's editor has just opened with its field focused.
+# Type ${LIMIT} and press Enter, which saves.
 appId: dev.nickel.app
 ---
-- scrollUntilVisible:
-    element:
-      id: budget-limit-input
-- tapOn:
-    id: budget-limit-input
 - inputText: ${LIMIT}
-- hideKeyboard
-- scrollUntilVisible:
-    element:
-      id: budget-save
-- tapOn:
-    id: budget-save
+- pressKey: Enter

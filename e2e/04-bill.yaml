@@ -10,14 +10,26 @@ appId: dev.nickel.app
 - tapOn:
     id: bill-name
 - inputText: Phone
+- pressKey: Enter
 - tapOn:
     id: bill-amount
 - inputText: '55'
+- pressKey: Enter
+- scrollUntilVisible:
+    element:
+      id: bill-date
 - tapOn:
     id: bill-date
 - eraseText: 20
 - inputText: '2099-01-31'
-- hideKeyboard
+- pressKey: Enter
+- scrollUntilVisible:
+    element:
+      text: Bills
+      below: Category
+- tapOn:
+    text: Bills
+    below: Category
 - scrollUntilVisible:
     element:
       id: bill-save

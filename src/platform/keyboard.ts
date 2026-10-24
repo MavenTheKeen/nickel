@@ -1,35 +1,57 @@
-import { useEffect, useState } from 'react';
-import { Keyboard, Platform, type ScrollViewProps } from 'react-native';
+import { useEffect, useRef, useState, type RefObject } from 'react';
+import {
+  Keyboard,
+  Platform,
+  TextInput,
+  type NativeScrollEvent,
+  type NativeSyntheticEvent,
+  type ScrollView,
+  type ScrollViewProps,
+} from 'react-native';
+
+const MARGIN = 24;
 
 /**
- * Height of the on-screen keyboard on Android, 0 elsewhere. Android draws the
- * app edge to edge, so the window no longer shrinks when the keyboard opens and
- * the bottom of a scroll view stays hidden behind it.
+ * Keeps a scroll view's fields usable above the keyboard. iOS adjusts the
+ * insets itself. Android draws the app edge to edge, so the window no longer
+ * shrinks for the keyboard: the content gets bottom padding equal to the
+ * keyboard's height, and a focused field the keyboard would cover is scrolled
+ * up into view.
  */
-export function useAndroidKeyboardHeight(): number {
-  const [height, setHeight] = useState(0);
+export function useKeyboardScroll(ref: RefObject<ScrollView | null>, basePadding: number) {
+  const offset = useRef(0);
+  const [keyboard, setKeyboard] = useState(0);
+
   useEffect(() => {
     if (Platform.OS !== 'android') return;
-    const show = Keyboard.addListener('keyboardDidShow', (e) => setHeight(e.endCoordinates.height));
-    const hide = Keyboard.addListener('keyboardDidHide', () => setHeight(0));
+    const show = Keyboard.addListener('keyboardDidShow', (e) => {
+      const keyboardTop = e.endCoordinates.screenY;
+      setKeyboard(e.endCoordinates.height);
+      const input = TextInput.State.currentlyFocusedInput();
+      if (!input) return;
+      // Wait a frame so the added padding exists before scrolling into it.
+      requestAnimationFrame(() => {
+        input.measureInWindow((_x, y, _w, h) => {
+          const overlap = y + h + MARGIN - keyboardTop;
+          if (overlap > 0) ref.current?.scrollTo({ y: offset.current + overlap });
+        });
+      });
+    });
+    const hide = Keyboard.addListener('keyboardDidHide', () => setKeyboard(0));
     return () => {
       show.remove();
       hide.remove();
     };
-  }, []);
-  return height;
-}
+  }, [ref]);
 
-/**
- * Props for a form's scroll view so every field and button can be scrolled
- * above the keyboard: iOS adjusts the insets itself, Android gets extra
- * bottom padding.
- */
-export function useKeyboardScrollProps(basePadding: number): ScrollViewProps {
-  const keyboard = useAndroidKeyboardHeight();
-  return {
+  const props: ScrollViewProps = {
     keyboardShouldPersistTaps: 'handled',
     automaticallyAdjustKeyboardInsets: true,
     contentContainerStyle: { paddingBottom: basePadding + keyboard },
+    scrollEventThrottle: 32,
   };
+  const onScroll = (e: NativeSyntheticEvent<NativeScrollEvent>) => {
+    offset.current = e.nativeEvent.contentOffset.y;
+  };
+  return { props, onScroll };
 }

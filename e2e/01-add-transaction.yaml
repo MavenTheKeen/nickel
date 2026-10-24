@@ -8,7 +8,8 @@ appId: dev.nickel.app
 - tapOn:
     id: amount-input
 - inputText: '12.50'
-- hideKeyboard
+# Enter closes the keyboard; Maestro's hideKeyboard presses Back when none is open.
+- pressKey: Enter
 - tapOn: Eating out
 - scrollUntilVisible:
     element:
@@ -17,5 +18,6 @@ appId: dev.nickel.app
     id: save-transaction
 - assertVisible:
     id: home-screen
-- assertVisible: '-$12.50'
+- scrollUntilVisible:
+    element: '-\$12\.50'
 - assertVisible: 'Eating out'
