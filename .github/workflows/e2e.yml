@@ -6,12 +6,17 @@ on:
   push:
     branches: [main]
   workflow_dispatch:
+    inputs:
+      screenshots:
+        description: Capture README screenshots instead of running the tests
+        type: boolean
+        default: false
 
 permissions:
   contents: read
 
 concurrency:
-  group: e2e-${{ github.ref }}
+  group: e2e-${{ github.ref }}-${{ inputs.screenshots || false }}
   cancel-in-progress: true
 
 env:
@@ -74,7 +79,12 @@ jobs:
           disable-animations: true
           script: |
             adb install -r android/app/build/outputs/apk/release/app-release.apk
-            maestro test e2e/ --format junit --output e2e-report.xml
+            adb shell settings put global sysui_demo_allowed 1
+            adb shell am broadcast -a com.android.systemui.demo -e command enter
+            adb shell am broadcast -a com.android.systemui.demo -e command clock -e hhmm 0941
+            adb shell am broadcast -a com.android.systemui.demo -e command notifications -e visible false
+            adb shell am broadcast -a com.android.systemui.demo -e command battery -e level 100 -e plugged false
+            if [ "${{ inputs.screenshots }}" = "true" ]; then maestro test e2e/screenshots/screenshots.yaml; else maestro test e2e/ --format junit --output e2e-report.xml; fi
 
       - name: Upload report
         if: always()
@@ -85,3 +95,13 @@ jobs:
             e2e-report.xml
             ~/.maestro/tests/
           if-no-files-found: ignore
+
+      - name: Upload screenshots
+        if: always() && inputs.screenshots
+        uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
+        with:
+          name: screenshots
+          path: |
+            screenshots/*.png
+            e2e/screenshots/screenshots/*.png
+          if-no-files-found: warn

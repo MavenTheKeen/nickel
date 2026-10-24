@@ -1,0 +1,71 @@
+# README screenshots: load demo data, set a few budgets and capture the main screens.
+# Not part of the test suite (config.yaml only picks up numbered flows in e2e/).
+appId: dev.nickel.app
+---
+- launchApp:
+    clearState: true
+- runFlow: ../_skip-onboarding.yaml
+
+# Demo data: a year of transactions plus three monthly subscriptions.
+- tapOn: Settings
+- longPressOn: '.*All data stays on this device.*'
+- assertVisible:
+    id: debug-screen
+- tapOn: Add 1,000 demo transactions
+- extendedWaitUntil:
+    visible: 'Added .* demo transactions.*'
+    timeout: 60000
+- back
+
+- tapOn: Budgets
+- tapOn: Groceries
+- tapOn:
+    id: budget-limit-input
+- inputText: '700'
+- tapOn:
+    id: budget-save
+- runFlow: ../_allow-permission.yaml
+- tapOn: Eating out
+- tapOn:
+    id: budget-limit-input
+- inputText: '250'
+- tapOn:
+    id: budget-save
+- tapOn: Transport
+- tapOn:
+    id: budget-limit-input
+- inputText: '300'
+- tapOn:
+    id: budget-save
+- tapOn: Fun
+- tapOn:
+    id: budget-limit-input
+- inputText: '200'
+- tapOn:
+    id: budget-save
+- takeScreenshot: screenshots/budgets
+
+- tapOn: Home
+- assertVisible:
+    id: home-screen
+- takeScreenshot: screenshots/home
+
+- tapOn: Transactions
+- takeScreenshot: screenshots/transactions
+
+- tapOn: Insights
+- assertVisible:
+    id: insights-screen
+- takeScreenshot: screenshots/insights
+
+- tapOn: Bills
+- assertVisible:
+    id: bills-screen
+- takeScreenshot: screenshots/bills
+
+- tapOn: Insights
+- tapOn:
+    id: open-review
+- assertVisible:
+    id: review-screen
+- takeScreenshot: screenshots/review
