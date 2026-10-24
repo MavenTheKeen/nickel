@@ -8,14 +8,24 @@ appId: dev.nickel.app
 
 # Demo data: a year of transactions plus three monthly subscriptions.
 - tapOn: Settings
+- scrollUntilVisible:
+    element: '.*All data stays on this device.*'
+    direction: DOWN
 - longPressOn: '.*All data stays on this device.*'
 - assertVisible:
     id: debug-screen
+- scrollUntilVisible:
+    element: Add 1,000 demo transactions
+    direction: DOWN
 - tapOn: Add 1,000 demo transactions
 - extendedWaitUntil:
     visible: 'Added .* demo transactions.*'
     timeout: 60000
+# Debug and Settings both sit on top of the tabs.
 - back
+- back
+- assertVisible:
+    id: home-screen
 
 - tapOn: Budgets
 - tapOn: Groceries

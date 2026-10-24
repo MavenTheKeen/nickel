@@ -5,6 +5,9 @@ appId: dev.nickel.app
     clearState: true
 - runFlow: _skip-onboarding.yaml
 - tapOn: Settings
+- scrollUntilVisible:
+    element: '.*All data stays on this device.*'
+    direction: DOWN
 - longPressOn: '.*All data stays on this device.*'
 - assertVisible:
     id: debug-screen
