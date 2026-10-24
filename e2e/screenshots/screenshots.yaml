@@ -66,6 +66,7 @@ appId: dev.nickel.app
     direction: DOWN
 - swipe:
     direction: DOWN
+- runFlow: ../_dismiss-system-dialog.yaml
 - takeScreenshot: screenshots/budgets
 
 - tapOn: Home
@@ -75,19 +76,23 @@ appId: dev.nickel.app
     direction: DOWN
 - swipe:
     direction: DOWN
+- runFlow: ../_dismiss-system-dialog.yaml
 - takeScreenshot: screenshots/home
 
 - tapOn: Transactions
+- runFlow: ../_dismiss-system-dialog.yaml
 - takeScreenshot: screenshots/transactions
 
 - tapOn: Insights
 - assertVisible:
     id: insights-screen
+- runFlow: ../_dismiss-system-dialog.yaml
 - takeScreenshot: screenshots/insights
 
 - tapOn: Bills
 - assertVisible:
     id: bills-screen
+- runFlow: ../_dismiss-system-dialog.yaml
 - takeScreenshot: screenshots/bills
 
 - tapOn: Insights
@@ -95,4 +100,5 @@ appId: dev.nickel.app
     id: open-review
 - assertVisible:
     id: review-screen
+- runFlow: ../_dismiss-system-dialog.yaml
 - takeScreenshot: screenshots/review

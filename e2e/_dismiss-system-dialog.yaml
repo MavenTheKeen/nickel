@@ -1,0 +1,9 @@
+# Shared step: a slow emulator can show "<app> isn't responding" for the
+# system launcher. That is not Nickel; wait for it and carry on.
+appId: dev.nickel.app
+---
+- runFlow:
+    when:
+      visible: ".*isn't responding.*"
+    commands:
+      - tapOn: Wait

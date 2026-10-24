@@ -3,6 +3,7 @@
 appId: dev.nickel.app
 ---
 - waitForAnimationToEnd
+- runFlow: _dismiss-system-dialog.yaml
 - runFlow:
     when:
       visible:
@@ -12,6 +13,7 @@ appId: dev.nickel.app
       - tapOn:
           text: Skip setup
           retryTapIfNoChange: true
+- runFlow: _dismiss-system-dialog.yaml
 - extendedWaitUntil:
     visible:
       id: home-screen

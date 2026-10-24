@@ -14,8 +14,7 @@ appId: dev.nickel.app
 - assertVisible: '.*of \$100\.00.*'
 - tapOn: Home
 - assertVisible: Safe to spend today
-- tapOn:
-    id: add-transaction
+- tapOn: Add transaction
 - tapOn:
     id: amount-input
 - inputText: '85'
