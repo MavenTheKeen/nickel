@@ -1,0 +1,17 @@
+# Add an expense in three taps and see it on Home.
+appId: dev.nickel.app
+---
+- launchApp:
+    clearState: true
+- runFlow: _skip-onboarding.yaml
+- tapOn: Add transaction
+- tapOn:
+    id: amount-input
+- inputText: '12.50'
+- tapOn: Eating out
+- tapOn:
+    id: save-transaction
+- assertVisible:
+    id: home-screen
+- assertVisible: '-$12.50'
+- assertVisible: 'Eating out'

@@ -1,0 +1,89 @@
+{
+  "expo": {
+    "name": "Nickel",
+    "slug": "nickel",
+    "version": "1.0.0",
+    "orientation": "portrait",
+    "icon": "./assets/icon.png",
+    "userInterfaceStyle": "automatic",
+    "ios": {
+      "supportsTablet": true,
+      "bundleIdentifier": "dev.nickel.app"
+    },
+    "android": {
+      "adaptiveIcon": {
+        "backgroundColor": "#FFFFFF",
+        "foregroundImage": "./assets/android-icon-foreground.png",
+        "backgroundImage": "./assets/android-icon-background.png",
+        "monochromeImage": "./assets/android-icon-monochrome.png"
+      },
+      "predictiveBackGestureEnabled": false,
+      "package": "dev.nickel.app"
+    },
+    "web": {
+      "favicon": "./assets/favicon.png"
+    },
+    "plugins": [
+      "expo-router",
+      "expo-status-bar",
+      [
+        "expo-sqlite",
+        {
+          "useSQLCipher": true
+        }
+      ],
+      "expo-sharing",
+      "@react-native-community/datetimepicker",
+      ["expo-notifications", {}],
+      "expo-font",
+      "expo-asset",
+      "expo-secure-store",
+      "expo-background-task",
+      "expo-localization",
+      "@sentry/react-native",
+      [
+        "expo-local-authentication",
+        {
+          "faceIDPermission": "Nickel uses Face ID to unlock the app when app lock is on."
+        }
+      ],
+      [
+        "react-native-android-widget",
+        {
+          "widgets": [
+            {
+              "name": "SafeToSpend",
+              "label": "Safe to spend",
+              "description": "Today's safe-to-spend amount and a button to add an expense",
+              "minWidth": "250dp",
+              "minHeight": "110dp",
+              "targetCellWidth": 4,
+              "targetCellHeight": 2,
+              "updatePeriodMillis": 1800000
+            }
+          ]
+        }
+      ],
+      [
+        "expo-image-picker",
+        {
+          "photosPermission": "Nickel uses your photos when you attach a receipt to a transaction.",
+          "cameraPermission": "Nickel uses the camera when you photograph a receipt.",
+          "microphonePermission": false
+        }
+      ]
+    ],
+    "scheme": "nickel",
+    "experiments": {
+      "typedRoutes": true
+    },
+    "runtimeVersion": {
+      "policy": "fingerprint"
+    },
+    "updates": {
+      "enabled": true,
+      "checkAutomatically": "ON_LOAD",
+      "fallbackToCacheTimeout": 0
+    }
+  }
+}

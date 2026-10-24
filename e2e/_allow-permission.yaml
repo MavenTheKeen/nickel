@@ -1,0 +1,8 @@
+# Shared step: accept the notification permission prompt if the system shows it.
+appId: dev.nickel.app
+---
+- runFlow:
+    when:
+      visible: 'Allow'
+    commands:
+      - tapOn: 'Allow'

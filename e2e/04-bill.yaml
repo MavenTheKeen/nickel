@@ -1,0 +1,27 @@
+# Add a monthly bill on the 31st and mark it paid.
+appId: dev.nickel.app
+---
+- launchApp:
+    clearState: true
+- runFlow: _skip-onboarding.yaml
+- tapOn: Bills
+- tapOn:
+    id: add-bill
+- tapOn:
+    id: bill-name
+- inputText: Phone
+- tapOn:
+    id: bill-amount
+- inputText: '55'
+- tapOn:
+    id: bill-date
+- eraseText: 20
+- inputText: '2099-01-31'
+- hideKeyboard
+- tapOn:
+    id: bill-save
+- runFlow: _allow-permission.yaml
+- assertVisible: Phone
+- assertVisible: 'Every month.*'
+- tapOn: Mark paid
+- assertVisible: '.*2099-02-28.*'

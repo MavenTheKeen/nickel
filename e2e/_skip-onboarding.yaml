@@ -1,0 +1,12 @@
+# Shared step: a fresh install lands in either onboarding variant. Variant A
+# shows the setup screens; skip them so every flow starts on Home.
+appId: dev.nickel.app
+---
+- runFlow:
+    when:
+      visible:
+        id: onboarding-screen
+    commands:
+      - tapOn: Skip setup
+- assertVisible:
+    id: home-screen

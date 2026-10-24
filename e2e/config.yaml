@@ -1,0 +1,3 @@
+# Shared steps start with "_" and are run from other flows, not on their own.
+flows:
+  - '[0-9]*.yaml'

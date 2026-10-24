@@ -1,0 +1,27 @@
+# Create a savings goal and put money towards it.
+appId: dev.nickel.app
+---
+- launchApp:
+    clearState: true
+- runFlow: _skip-onboarding.yaml
+- scrollUntilVisible:
+    element: 'Add a goal'
+- tapOn: 'Add a goal'
+- tapOn:
+    id: goal-name
+- inputText: 'Trip'
+- tapOn:
+    id: goal-target
+- inputText: '1200'
+- hideKeyboard
+- tapOn:
+    id: goal-save
+- scrollUntilVisible:
+    element: 'Trip'
+- tapOn: 'Trip'
+- tapOn:
+    id: goal-amount
+- inputText: '300'
+- tapOn:
+    id: goal-contribute
+- assertVisible: '\+\$300.00'

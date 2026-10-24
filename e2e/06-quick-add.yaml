@@ -1,0 +1,19 @@
+# Record an expense from one line of text, then undo it.
+appId: dev.nickel.app
+---
+- launchApp:
+    clearState: true
+- runFlow: _skip-onboarding.yaml
+- tapOn:
+    id: quick-add-input
+- inputText: '8.25 eating out cafe'
+- assertVisible:
+    id: quick-add-preview
+- assertVisible: '.*Eating out · cafe · today.*'
+- tapOn:
+    id: quick-add-save
+- assertVisible: 'Added to Eating out'
+- assertVisible: '-\$8.25'
+- tapOn:
+    id: undo-button
+- assertNotVisible: '-\$8.25'

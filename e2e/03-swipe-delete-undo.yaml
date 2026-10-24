@@ -1,0 +1,22 @@
+# Delete a transaction by swiping and bring it back with undo.
+appId: dev.nickel.app
+---
+- launchApp:
+    clearState: true
+- runFlow: _skip-onboarding.yaml
+- tapOn: Add transaction
+- tapOn:
+    id: amount-input
+- inputText: '4'
+- tapOn: Merchant (optional)
+- inputText: Coffee stand
+- tapOn:
+    id: save-transaction
+- tapOn: Transactions
+- swipe:
+    from: Coffee stand
+    direction: LEFT
+- assertVisible: Deleted Coffee stand
+- tapOn:
+    id: undo-button
+- assertVisible: Coffee stand

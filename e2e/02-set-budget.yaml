@@ -1,0 +1,27 @@
+# Set a budget, spend against it, and check the warning state and safe-to-spend number.
+appId: dev.nickel.app
+---
+- launchApp:
+    clearState: true
+- runFlow: _skip-onboarding.yaml
+- tapOn: Budgets
+- tapOn: Groceries
+- tapOn:
+    id: budget-limit-input
+- inputText: '100'
+- tapOn:
+    id: budget-save
+- runFlow: _allow-permission.yaml
+- assertVisible: 'of $100.00'
+- tapOn: Home
+- assertVisible: Safe to spend today
+- tapOn:
+    id: add-transaction
+- tapOn:
+    id: amount-input
+- inputText: '85'
+- tapOn: Groceries
+- tapOn:
+    id: save-transaction
+- tapOn: Budgets
+- assertVisible: '85% used, nearly at limit'

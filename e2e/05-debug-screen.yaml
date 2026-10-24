@@ -1,0 +1,15 @@
+# Open the hidden debug screen and check that events, flags and timings are recorded.
+appId: dev.nickel.app
+---
+- launchApp:
+    clearState: true
+- runFlow: _skip-onboarding.yaml
+- tapOn: Settings
+- longPressOn: '.*All data stays on this device.*'
+- assertVisible:
+    id: debug-screen
+- assertVisible: onboarding_v1
+- assertVisible: app_open
+- scrollUntilVisible:
+    element: cold_start
+    direction: DOWN
