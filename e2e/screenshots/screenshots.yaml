@@ -19,7 +19,7 @@ appId: dev.nickel.app
     direction: DOWN
 - tapOn: Add 1,000 demo transactions
 - extendedWaitUntil:
-    visible: 'Added .* demo transactions.*'
+    visible: seed_import
     timeout: 60000
 # Debug and Settings both sit on top of the tabs.
 - back
