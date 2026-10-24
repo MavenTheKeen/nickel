@@ -55,7 +55,11 @@ jobs:
         env:
           # No Sentry credentials in CI; skip the source map upload step.
           SENTRY_DISABLE_AUTO_UPLOAD: 'true'
-        run: ./gradlew assembleRelease --no-daemon -PreactNativeArchitectures=x86_64
+        # Release lint runs out of Metaspace on the runner and checks nothing the flows need.
+        run: >
+          ./gradlew assembleRelease --no-daemon -PreactNativeArchitectures=x86_64
+          -x lintVitalAnalyzeRelease -x lintVitalReportRelease -x lintVitalRelease
+          -Dorg.gradle.jvmargs="-Xmx4g -XX:MaxMetaspaceSize=1g"
 
       - name: Install Maestro (pinned, checksum verified)
         run: |
