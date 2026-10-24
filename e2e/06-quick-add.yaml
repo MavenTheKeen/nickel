@@ -13,8 +13,10 @@ appId: dev.nickel.app
 # Enter submits the line, the same as tapping Add, and closes the keyboard.
 - pressKey: Enter
 - assertVisible: 'Added to Eating out'
-- scrollUntilVisible:
-    element: '-\$8\.25'
+# The undo bar only stays for a few seconds, so undo first and check after.
 - tapOn:
     id: undo-button
+- assertNotVisible: 'Added to Eating out'
+- scrollUntilVisible:
+    element: Recent
 - assertNotVisible: '-\$8\.25'

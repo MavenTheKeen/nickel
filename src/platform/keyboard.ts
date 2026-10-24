@@ -28,13 +28,22 @@ export function useKeyboardScroll(ref: RefObject<ScrollView | null>, basePadding
       const keyboardTop = e.endCoordinates.screenY;
       setKeyboard(e.endCoordinates.height);
       const input = TextInput.State.currentlyFocusedInput();
-      if (!input) return;
+      const scroll = ref.current?.getNativeScrollRef();
+      if (!input || !scroll) return;
       // Wait a frame so the added padding exists before scrolling into it.
       requestAnimationFrame(() => {
-        input.measureInWindow((_x, y, _w, h) => {
-          const overlap = y + h + MARGIN - keyboardTop;
-          if (overlap > 0) ref.current?.scrollTo({ y: offset.current + overlap });
-        });
+        // Tabs stay mounted, so several scroll views hear this event.
+        // measureLayout only succeeds when the field is inside this one.
+        input.measureLayout(
+          scroll,
+          () => {
+            input.measureInWindow((_x, y, _w, h) => {
+              const overlap = y + h + MARGIN - keyboardTop;
+              if (overlap > 0) ref.current?.scrollTo({ y: offset.current + overlap });
+            });
+          },
+          () => undefined,
+        );
       });
     });
     const hide = Keyboard.addListener('keyboardDidHide', () => setKeyboard(0));

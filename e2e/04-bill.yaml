@@ -39,4 +39,4 @@ appId: dev.nickel.app
 - assertVisible: Phone
 - assertVisible: 'Every month.*'
 - tapOn: Mark paid
-- assertVisible: '.*2099-02-28.*'
+- assertVisible: '.*Due Feb 28.*'
