@@ -22,10 +22,18 @@ appId: dev.nickel.app
 - tapOn:
     id: save-transaction
 - tapOn: Transactions
-- swipe:
-    from: Coffee stand
-    direction: LEFT
-- assertVisible: Deleted Coffee stand
-- tapOn:
-    id: undo-button
+# The undo bar stays for five seconds, so tap Undo as soon as it appears; its
+# presence shows the swipe deleted the row. A swipe the list did not register
+# is retried.
+- retry:
+    maxRetries: 2
+    commands:
+      - swipe:
+          from: Coffee stand
+          direction: LEFT
+          duration: 600
+      - tapOn:
+          id: undo-button
 - assertVisible: Coffee stand
+- assertNotVisible:
+    id: undo-button
