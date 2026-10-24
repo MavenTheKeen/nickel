@@ -1,0 +1,37 @@
+# README demo recording. Runs after screenshots.yaml, so demo data and
+# budgets are already in place; the workflow records the screen meanwhile.
+appId: dev.nickel.app
+---
+- back
+- tapOn: Home
+- swipe:
+    direction: DOWN
+- tapOn:
+    id: quick-add-input
+- inputText: '12.50 groceries loblaws'
+- waitForAnimationToEnd
+- pressKey: Enter
+- waitForAnimationToEnd
+- tapOn: Budgets
+- waitForAnimationToEnd
+- tapOn: Insights
+- waitForAnimationToEnd
+- scroll
+- waitForAnimationToEnd
+- tapOn: Bills
+- waitForAnimationToEnd
+- tapOn: Insights
+- swipe:
+    direction: DOWN
+- tapOn:
+    id: open-review
+- waitForAnimationToEnd
+- tapOn:
+    id: review-next
+- waitForAnimationToEnd
+- tapOn:
+    id: review-next
+- waitForAnimationToEnd
+- tapOn:
+    id: review-next
+- waitForAnimationToEnd

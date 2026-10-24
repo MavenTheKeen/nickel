@@ -103,14 +103,18 @@ Some numbers from my machine (Node 24, Ryzen 7 7735HS, in-memory SQLite):
 
 I haven't measured startup time or list rendering on a real device yet.
 
-## Onboarding experiment
+## Experiment tooling
 
-New installs get one of two first-run flows: a three-step setup, or straight to the home screen
-with a prompt to add something. Assignment is a hash of the install id, so it's stable without a
-server. Events are stored locally and can be exported from the debug screen;
-`npm run analyze:ab -- exports/*.json` compares how many installs added a first transaction
-within 24 hours. With only a few test devices the result doesn't say much. It's there to show
-the setup works end to end.
+The app has the plumbing for A/B tests without a server: feature flags, event logging and an
+analysis script. Variants are assigned from a hash of the install id and the flag key, so an
+install always gets the same variant and separate experiments don't affect each other. Events go
+to a local table and can be exported as JSON from the debug screen, and
+`npm run analyze:ab -- exports/*.json` reports conversion per variant with 95% confidence
+intervals.
+
+The first flag splits onboarding between a three-step setup and going straight to the home
+screen, measured by whether a first transaction is added within 24 hours. It hasn't been run with
+real users, so there's no result to report.
 
 ## Not included
 

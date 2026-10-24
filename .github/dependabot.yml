@@ -1,5 +1,5 @@
-# Patch updates only. Expo SDK, React Native and other minor or major
-# upgrades must move together and get their own review (npx expo install --fix).
+# Patch updates only. Packages whose versions Expo SDK 57 pins are left out:
+# they move together with the SDK through `npx expo install --fix`.
 version: 2
 updates:
   - package-ecosystem: npm
@@ -10,6 +10,17 @@ updates:
     ignore:
       - dependency-name: '*'
         update-types: ['version-update:semver-minor', 'version-update:semver-major']
+      - dependency-name: 'expo'
+      - dependency-name: 'expo-*'
+      - dependency-name: '@expo/*'
+      - dependency-name: 'react'
+      - dependency-name: 'react-dom'
+      - dependency-name: 'react-native'
+      - dependency-name: 'react-native-*'
+      - dependency-name: '@react-native-community/*'
+      - dependency-name: '@shopify/flash-list'
+      - dependency-name: '@sentry/react-native'
+      - dependency-name: 'jest-expo'
 
   - package-ecosystem: github-actions
     directory: /

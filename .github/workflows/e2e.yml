@@ -92,6 +92,7 @@ jobs:
             adb shell am broadcast -a com.android.systemui.demo -e command notifications -e visible false
             adb shell am broadcast -a com.android.systemui.demo -e command battery -e level 100 -e plugged false
             if [ "${{ inputs.screenshots }}" = "true" ]; then maestro test e2e/screenshots/screenshots.yaml; else maestro test e2e/ --format junit --output e2e-report.xml; fi
+            if [ "${{ inputs.screenshots }}" = "true" ]; then (adb shell screenrecord --bit-rate 6000000 /sdcard/demo.mp4 &); sleep 2; maestro test e2e/screenshots/demo.yaml; adb shell 'kill -INT $(pidof screenrecord)'; sleep 3; adb pull /sdcard/demo.mp4 demo.mp4; fi
 
       - name: Upload report
         if: always()
@@ -103,6 +104,14 @@ jobs:
             ~/.maestro/tests/
           if-no-files-found: ignore
 
+      - name: Convert the demo recording to a GIF
+        if: always() && inputs.screenshots && hashFiles('demo.mp4') != ''
+        run: |
+          sudo apt-get install -y --no-install-recommends ffmpeg > /dev/null
+          ffmpeg -loglevel error -i demo.mp4 \
+            -vf "fps=12,scale=360:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse" \
+            demo.gif
+
       - name: Upload screenshots
         if: always() && inputs.screenshots
         uses: actions/upload-artifact@cf430e030ddbb5b0abf93d22962f4752f3646cd9 # v7.0.2
@@ -111,4 +120,6 @@ jobs:
           path: |
             screenshots/*.png
             e2e/screenshots/screenshots/*.png
+            demo.mp4
+            demo.gif
           if-no-files-found: warn
