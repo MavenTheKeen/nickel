@@ -22,14 +22,16 @@ appId: dev.nickel.app
 - tapOn:
     id: save-transaction
 - tapOn: Transactions
+# Swipe from the amount on the right: the row moves at half the finger's speed,
+# and a swipe starting at the merchant name near the left edge runs out of
+# screen before the row passes the delete threshold.
 # The undo bar stays for five seconds, so tap Undo as soon as it appears; its
-# presence shows the swipe deleted the row. A swipe the list did not register
-# is retried.
+# presence shows the swipe deleted the row.
 - retry:
     maxRetries: 2
     commands:
       - swipe:
-          from: Coffee stand
+          from: '-\$4\.00'
           direction: LEFT
           duration: 600
       - tapOn:
