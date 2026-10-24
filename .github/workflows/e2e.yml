@@ -80,8 +80,6 @@ jobs:
           api-level: 34
           arch: x86_64
           target: google_apis
-          # A phone-sized screen for README screenshots; the default for tests.
-          profile: ${{ inputs.screenshots && 'pixel_6' || '' }}
           disable-animations: true
           script: |
             adb install -r android/app/build/outputs/apk/release/app-release.apk
@@ -109,7 +107,7 @@ jobs:
         run: |
           sudo apt-get install -y --no-install-recommends ffmpeg > /dev/null
           ffmpeg -loglevel error -i demo.mp4 \
-            -vf "fps=12,scale=360:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse" \
+            -vf "fps=12,scale=320:-1:flags=lanczos,split[a][b];[a]palettegen[p];[b][p]paletteuse" \
             demo.gif
 
       - name: Upload screenshots
