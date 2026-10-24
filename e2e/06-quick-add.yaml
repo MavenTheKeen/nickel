@@ -10,6 +10,7 @@ appId: dev.nickel.app
 - assertVisible:
     id: quick-add-preview
 - assertVisible: '.*Eating out · cafe · today.*'
+- hideKeyboard
 - tapOn:
     id: quick-add-save
 - assertVisible: 'Added to Eating out'

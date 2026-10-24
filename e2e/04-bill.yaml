@@ -18,6 +18,9 @@ appId: dev.nickel.app
 - eraseText: 20
 - inputText: '2099-01-31'
 - hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: bill-save
 - tapOn:
     id: bill-save
 - runFlow: _allow-permission.yaml

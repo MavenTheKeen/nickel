@@ -1,0 +1,15 @@
+# Shared step: with a budget row's editor open, type ${LIMIT} and save.
+appId: dev.nickel.app
+---
+- scrollUntilVisible:
+    element:
+      id: budget-limit-input
+- tapOn:
+    id: budget-limit-input
+- inputText: ${LIMIT}
+- hideKeyboard
+- scrollUntilVisible:
+    element:
+      id: budget-save
+- tapOn:
+    id: budget-save

@@ -14,6 +14,7 @@ import {
 } from 'react-native';
 
 import { haptics } from '@/platform/haptics';
+import { useKeyboardScrollProps } from '@/platform/keyboard';
 import { useReducedMotion } from '@/platform/motion';
 import { font, radius, space, useTheme } from '@/theme/tokens';
 
@@ -24,12 +25,13 @@ import { AppText } from './AppText';
 
 export function Screen({ children, ...rest }: ScrollViewProps & { children: ReactNode }) {
   const theme = useTheme();
+  const keyboard = useKeyboardScrollProps(space.xxl);
   return (
     <ScrollView
+      {...keyboard}
       {...rest}
       style={[{ flex: 1, backgroundColor: theme.background }, rest.style]}
-      contentContainerStyle={[{ paddingBottom: space.xxl }, rest.contentContainerStyle]}
-      keyboardShouldPersistTaps="handled"
+      contentContainerStyle={[keyboard.contentContainerStyle, rest.contentContainerStyle]}
     >
       {children}
     </ScrollView>

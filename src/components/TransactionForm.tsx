@@ -6,6 +6,7 @@ import { Alert, Image, Platform, Pressable, ScrollView, View } from 'react-nativ
 import type { Categorizer } from '@/hooks/loaders';
 import type { RateState } from '@/hooks/queries';
 import { useUiStore } from '@/hooks/uiStore';
+import { useKeyboardScrollProps } from '@/platform/keyboard';
 import { pickReceipt, receiptExists, receiptUri, type ReceiptSource } from '@/platform/receipts';
 import { suggestCategory } from '@/services/merchant';
 import { addDays, parseIsoDate, toIsoDate } from '@/services/dates';
@@ -324,12 +325,10 @@ export function TransactionForm({
     { label: 'Yesterday', value: addDays(today, -1) },
   ];
   const dateIsQuick = quickDates.some((q) => q.value === date);
+  const keyboardScroll = useKeyboardScrollProps(space.xxl);
 
   return (
-    <ScrollView
-      keyboardShouldPersistTaps="handled"
-      contentContainerStyle={{ paddingBottom: space.xxl }}
-    >
+    <ScrollView {...keyboardScroll}>
       <View style={{ marginTop: space.lg }}>
         <Segmented
           accessibilityLabel="Expense or income"

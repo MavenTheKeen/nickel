@@ -6,11 +6,10 @@ appId: dev.nickel.app
 - runFlow: _skip-onboarding.yaml
 - tapOn: Budgets
 - tapOn: Groceries
-- tapOn:
-    id: budget-limit-input
-- inputText: '100'
-- tapOn:
-    id: budget-save
+- runFlow:
+    file: _set-limit.yaml
+    env:
+      LIMIT: '100'
 - runFlow: _allow-permission.yaml
 - assertVisible: 'of $100.00'
 - tapOn: Home
@@ -20,7 +19,11 @@ appId: dev.nickel.app
 - tapOn:
     id: amount-input
 - inputText: '85'
+- hideKeyboard
 - tapOn: Groceries
+- scrollUntilVisible:
+    element:
+      id: save-transaction
 - tapOn:
     id: save-transaction
 - tapOn: Budgets

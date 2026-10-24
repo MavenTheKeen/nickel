@@ -8,7 +8,11 @@ appId: dev.nickel.app
 - tapOn:
     id: amount-input
 - inputText: '12.50'
+- hideKeyboard
 - tapOn: Eating out
+- scrollUntilVisible:
+    element:
+      id: save-transaction
 - tapOn:
     id: save-transaction
 - assertVisible:

@@ -28,31 +28,44 @@ appId: dev.nickel.app
     id: home-screen
 
 - tapOn: Budgets
+- scrollUntilVisible:
+    element: Groceries
+    direction: DOWN
 - tapOn: Groceries
-- tapOn:
-    id: budget-limit-input
-- inputText: '700'
-- tapOn:
-    id: budget-save
+- runFlow:
+    file: ../_set-limit.yaml
+    env:
+      LIMIT: '700'
 - runFlow: ../_allow-permission.yaml
+- scrollUntilVisible:
+    element: Eating out
+    direction: DOWN
 - tapOn: Eating out
-- tapOn:
-    id: budget-limit-input
-- inputText: '250'
-- tapOn:
-    id: budget-save
+- runFlow:
+    file: ../_set-limit.yaml
+    env:
+      LIMIT: '250'
+- scrollUntilVisible:
+    element: Transport
+    direction: DOWN
 - tapOn: Transport
-- tapOn:
-    id: budget-limit-input
-- inputText: '300'
-- tapOn:
-    id: budget-save
+- runFlow:
+    file: ../_set-limit.yaml
+    env:
+      LIMIT: '300'
+- scrollUntilVisible:
+    element: Fun
+    direction: DOWN
 - tapOn: Fun
-- tapOn:
-    id: budget-limit-input
-- inputText: '200'
-- tapOn:
-    id: budget-save
+- runFlow:
+    file: ../_set-limit.yaml
+    env:
+      LIMIT: '200'
+# Back to the top of the list.
+- swipe:
+    direction: DOWN
+- swipe:
+    direction: DOWN
 - takeScreenshot: screenshots/budgets
 
 - tapOn: Home
