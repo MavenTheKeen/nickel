@@ -6,6 +6,16 @@ category, and it tells you how much you can still spend today.
 
 Built with Expo (SDK 57), React Native, TypeScript and SQLite.
 
+<p>
+  <img src="docs/screenshots/home.png" width="200" alt="Home: safe to spend today, quick add and recent transactions">
+  <img src="docs/screenshots/budgets.png" width="200" alt="Budgets: per-category limits with two categories over budget">
+  <img src="docs/screenshots/insights.png" width="200" alt="Insights: spending by category as a donut chart">
+  <img src="docs/screenshots/transactions.png" width="200" alt="Transactions: searchable list with category filters">
+</p>
+
+Screenshots are taken on an Android emulator in CI with generated demo data
+(`e2e/screenshots/screenshots.yaml`).
+
 ## What it does
 
 - Add a transaction from one line on the home screen, e.g. `12.50 groceries loblaws yesterday`.
