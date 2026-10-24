@@ -80,6 +80,8 @@ jobs:
           api-level: 34
           arch: x86_64
           target: google_apis
+          # A phone-sized screen for README screenshots; the default for tests.
+          profile: ${{ inputs.screenshots && 'pixel_6' || '' }}
           disable-animations: true
           script: |
             adb install -r android/app/build/outputs/apk/release/app-release.apk

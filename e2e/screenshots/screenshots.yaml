@@ -71,6 +71,10 @@ appId: dev.nickel.app
 - tapOn: Home
 - assertVisible:
     id: home-screen
+- swipe:
+    direction: DOWN
+- swipe:
+    direction: DOWN
 - takeScreenshot: screenshots/home
 
 - tapOn: Transactions
