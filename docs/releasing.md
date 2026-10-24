@@ -31,7 +31,7 @@ The app checks for an update on launch. When one has downloaded, Settings shows 
 update"; otherwise it applies on the next cold start. The channel and update id appear next to
 the version line in Settings.
 
-Order for a release: publish to `preview`, test it on a device, then publish the same commit to
+For a release I publish to `preview` first, check it on a device, then publish the same commit to
 `production`.
 
 ## Rolling back

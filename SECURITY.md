@@ -1,50 +1,52 @@
 # Security
 
-## How data is protected
+## How data is stored
 
-- All data is stored in a SQLite database encrypted with SQLCipher. The 256-bit key is generated
-  on the device and kept in the Android Keystore / iOS Keychain with "this device only"
-  accessibility, so it is never included in a backup or moved to another device.
-- An optional app lock requires Face ID, fingerprint or the device passcode on launch and after
-  30 seconds in the background. While the app is not in front, its content is covered so balances
-  do not show in the app switcher. With the lock on, the Android widget shows no amounts.
-- The app has no accounts, no server and no analytics service. It makes two kinds of network
-  request, both limited to what they need:
-  - Exchange rates, only when a purchase is recorded in a currency other than the home currency:
-    a request to api.frankfurter.dev containing the two currency codes and the date, nothing
-    else. Each rate is stored on the device and not requested again.
-  - Optional crash reporting, off by default, which must be turned on by the user and sends the
-    error and stack trace only (no amounts, notes, merchants, screenshots or breadcrumbs).
-- Receipt text is read on the device (Apple Vision on iOS, Google ML Kit on Android). The photo
-  is not uploaded.
-- Receipt photos are files in the app's private documents folder, protected by the operating
-  system's app sandbox and file protection but not by SQLCipher. They are not included in
-  backups. Photos no longer attached to a transaction are deleted on the next app start.
-- Exported CSV and backup files are not encrypted; the app says so when creating a backup.
+The database is SQLite encrypted with SQLCipher. The 256-bit key is generated on the phone and
+kept in the Android Keystore or iOS Keychain, marked "this device only", so it never ends up in a
+cloud backup.
+
+There's an optional app lock (Face ID, fingerprint or the device passcode). It asks on launch and
+after 30 seconds in the background, and the app's content is hidden in the app switcher. With the
+lock on, the Android widget doesn't show amounts.
+
+Receipt photos are stored as files in the app's private folder. They're protected by the OS
+sandbox, not by SQLCipher, and they aren't included in backups. Receipt text is recognised on the
+phone; photos are never uploaded.
+
+CSV exports and backup files are not encrypted. The app warns about this when you make a backup.
+
+## Network requests
+
+There are no accounts, no server and no analytics service. The app only makes two kinds of
+request:
+
+- Exchange rates from api.frankfurter.dev, only when you record something in another currency.
+  The request contains two currency codes and a date. Each rate is cached so it's only fetched
+  once.
+- Crash reports through Sentry, which are off by default. If you turn them on, only the error and
+  stack trace are sent. Breadcrumbs, screenshots and the view hierarchy are disabled because they
+  would include amounts and merchant names.
 
 ## Dependency audit
 
-CI runs `npm run audit` (`scripts/audit.mts`), which fails on any high or critical advisory in
-production dependencies. Two advisories are excepted because the affected code runs only in the
-Expo command-line tools on the build machine and is not part of the app bundle:
+CI runs `npm run audit` ([scripts/audit.mts](scripts/audit.mts)) and fails on any high or
+critical advisory in production dependencies, with two exceptions. Both are in Expo's
+command-line tools, which only run on the build machine and aren't part of the app:
 
-- GHSA-86w9-cpqp-85rv (node-forge, used by `@expo/cli` and the `expo-updates` code-signing
-  tool; no fixed release exists).
-- GHSA-mrhx-c7xc-m3w5 (zod 3 inside `expo`; the app itself uses zod 4.6.7, which is fixed).
+- GHSA-86w9-cpqp-85rv in node-forge, used by `@expo/cli` and the `expo-updates` signing tool.
+  There's no fixed version yet.
+- GHSA-mrhx-c7xc-m3w5 in the copy of zod 3 bundled inside `expo`. The app itself uses zod 4.6.7,
+  which has the fix.
 
-Each exception is limited to that package path, so the same advisory elsewhere fails the build.
+Each exception only applies to that package path, so the same advisory anywhere else still fails
+the build.
 
-## Reporting a vulnerability
+## Reporting a problem
 
-Please report suspected vulnerabilities privately through GitHub's "Report a vulnerability"
-form on this repository's Security tab. Do not open a public issue. Reports are acknowledged
-within seven days.
+Please use GitHub's private "Report a vulnerability" form on the Security tab rather than opening
+a public issue. I'll reply within a week.
 
-## Scope
-
-In scope: handling of imported files (CSV and backup parsing), exported files, local data
-storage (including receipt photos), the exchange rate request, the app lock, deep links and
-notification content.
-
-Out of scope: issues that require a rooted or jailbroken device, or physical access to an
-unlocked phone.
+Worth reporting: anything around importing or exporting files, how data is stored, the exchange
+rate request, the app lock, deep links or notification content. Issues that need a rooted or
+jailbroken phone, or someone holding your unlocked phone, are out of scope.

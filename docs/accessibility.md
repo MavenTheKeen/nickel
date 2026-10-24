@@ -1,43 +1,33 @@
 # Accessibility
 
-## Implemented
+## What's in place
 
-- Every button, toggle, segmented control and category tile has an accessibility label and role;
-  selected and disabled states are exposed (`accessibilityState`).
-- Transaction rows read as one sentence: merchant, expense or income, amount and date.
-- Charts expose their data as text: the donut lists each category and amount, the trend lists
-  each period and amount.
-- Progress bars expose their value (0-100) as a progress bar role.
-- Validation errors and status messages use a polite live region, so they are announced.
-- Touch targets are at least 44 by 44 points; hit slop is added to small icons.
-- Text uses the system font size; no text sets `allowFontScaling={false}`.
-- Swipe to delete has an alternative: Delete on the edit screen.
-- Colour is never the only signal: budget rows say "nearly at limit" and "over budget" in text.
-- Light and dark themes; text colours meet 4.5:1 contrast against their background.
-- With the app lock on, the content behind the lock screen is hidden from screen readers.
-- Nickel's own animations (counting amounts, sliding progress bars, the loading placeholder) are
-  skipped when the system reduce motion setting is on. Animated amounts announce their final value
-  only.
-- Chart slices and bars can be tapped, but every figure is also available as a list row or as the
-  chart's text label, so nothing depends on hitting a slice.
-- The review cards are read one at a time; the page indicator is an adjustable control, so
-  swiping up or down with a screen reader moves between cards.
-- The quick add preview is a polite live region: the reading of the typed line is announced.
-- Receipt photos have a label and open full screen; camera and photo access explain why they are
-  needed.
+Buttons, toggles and category tiles have labels and roles, and selected or disabled state is
+exposed to screen readers. A transaction row reads as one sentence (merchant, expense or
+income, amount and date) instead of four separate pieces.
 
-## Device checklist
+The charts have text equivalents: the donut lists each category with its amount, and the trend
+chart lists each month. Everything you can tap on a chart is also available as a normal list
+row. Budget rows say "nearly at limit" or "over budget" in words, so colour is never the only
+signal.
 
-Not yet run on a device. Record the result and date for each.
+Validation errors, the quick add preview and status messages are polite live regions, so they're
+announced as they change. Swipe to delete has a button alternative on the edit screen. The month
+review is a set of cards, and its page indicator is an adjustable control, so swiping up or down
+with a screen reader moves between cards.
 
-| Check                                                                    | Android (TalkBack) | iOS (VoiceOver) |
-| ------------------------------------------------------------------------ | ------------------ | --------------- |
-| Add a transaction using only the screen reader                           |                    |                 |
-| Every control on Home, Budgets, Insights and Bills is announced sensibly |                    |                 |
-| Delete and undo a transaction without swiping                            |                    |                 |
-| Largest system text size: no clipped text on Home and the add screen     |                    |                 |
-| Unlock the app lock with the screen reader on                            |                    |                 |
-| Import a CSV and hear the validation summary                             |                    |                 |
-| Quick add an expense and hear the preview                                |                    |                 |
-| Move through the period review with the screen reader                    |                    |                 |
-| Reduce motion on: no counting amounts or sliding bars                    |                    |                 |
+Touch targets are at least 44 × 44 points. Text follows the system font size everywhere (nothing
+sets `allowFontScaling={false}`), and text colours meet 4.5:1 contrast in both themes. When
+reduce motion is on, the counting amounts, sliding progress bars and loading pulse are all
+skipped. With the app lock on, the content behind the lock screen is hidden from screen readers.
+
+## Still to test on a device
+
+I haven't gone through these with TalkBack or VoiceOver yet:
+
+- Adding a transaction using only the screen reader
+- Deleting and undoing without swiping
+- Unlocking the app lock with the screen reader on
+- Importing a CSV and hearing the validation summary
+- Moving through the month review
+- The largest system text size on Home and the add screen (nothing should be cut off)
